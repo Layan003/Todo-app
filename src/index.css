@@ -131,3 +131,29 @@ button {
   width: 80%;
   margin: 0 auto;
 }
+
+.progress-bar-container{
+  width: 40%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-bar, .line {
+  height: 8px;
+  border-radius: 15px;
+}
+.progress-bar{
+  background-color: #FEFAE0;
+  width: 90%;
+  margin: auto;
+}
+.line {
+  background-color: #4a6100;
+}
+.progress-rate{
+  width: 10%;
+  height: 8px;
+  padding-left: .3em;
+}

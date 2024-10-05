@@ -12,6 +12,16 @@ function App() {
   const [edited, setEdited] = useState(false);
   const [checkedTodoList, setCheckedTodoList] = useState([]);
   const [editTodo, setEditTodo] = useState(false);
+  const [progressRate, setProgressRate] = useState("0%");
+  const [totalTodos, setTotalTodos] = useState(0);
+
+  
+
+  useEffect(() => {
+    const rate = (checkedTodoList.length / (totalTodos * 1.0)) * 100;
+    setProgressRate(`${Math.round(rate)}%`);
+
+  }, [newTodo, checkedTodoList])
 
   useEffect(() => {
     if (editTodo && inputRef.current) {
@@ -32,13 +42,13 @@ function App() {
       ...todoList,
       { id: idCounter, todo: newTodo, checked: false },
     ]);
+  
     setNewTodo("");
     setIdCounter(idCounter + 1);
+    setTotalTodos(totalTodos + 1);
   }
 
   function handleChecked(i) {
-    const checked = [];
-    const unchecked = [];
     const completeTodoList = [...todoList, ...checkedTodoList];
 
     const updatedTodoList = completeTodoList.map((item) => {
@@ -47,6 +57,9 @@ function App() {
       }
       return item;
     });
+
+    const checked = [];
+    const unchecked = [];
 
     updatedTodoList.forEach((item) => {
       if (item.checked) {
@@ -68,6 +81,7 @@ function App() {
     setTodoList(updatedTodoList);
     setCheckedTodoList(updatedCheckedTodoList);
     setDeleted(true);
+    setTotalTodos(totalTodos - 1);
   }
 
   function handleEditMode(todo) {
@@ -113,6 +127,15 @@ function App() {
         />
         <button onClick={addTodo}>Add</button>
       </div>
+
+      {/* progress line */}
+      <div className="progress-bar-container">
+        <div className="progress-bar">
+          <div className="line" style={{ width: progressRate}}></div>
+        </div>
+        <p className="progress-rate">{progressRate}</p>
+      </div>
+      
 
       {deleted && (
         <div
@@ -432,6 +455,8 @@ function App() {
           </div>
         </div>
       )}
+
+      
     </>
   );
 }
